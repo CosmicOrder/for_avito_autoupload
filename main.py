@@ -22,7 +22,7 @@ contact_phone = ['+7 (910) 603-21-35']
 price = []
 images = []
 
-for row in range(2, 15):
+for row in range(2, sheet.max_row + 1):
     if sheet[row][2].value and sheet[row][0].value != 'Артикул' and \
             'без лого' not in sheet[row][0].value and \
             sheet[row][9].value != 'нет':

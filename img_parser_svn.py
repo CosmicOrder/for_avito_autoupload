@@ -1,4 +1,5 @@
 import os.path
+import re
 
 import requests
 from bs4 import BeautifulSoup
@@ -19,15 +20,18 @@ class ImgParserSVN:
         r1 = requests.get(url, headers=headers)
 
         search_result = BeautifulSoup(r1.text, 'lxml')
-        product_item = search_result.find(class_='product_item hit '
-                                                 'w_xs_full '
-                                                 'isotope-item')
-        try:
-            self.item_href = product_item.find('a')['href']
-        except AttributeError as ex:
+        product_items = search_result.find_all(class_='product_item hit '
+                                                      'w_xs_full '
+                                                      'isotope-item')
+        if product_items:
+            for item in product_items:
+                if re.search(r'\b{}\b'.format(article),
+                             item.find(class_='m_bottom_10').text):
+                    self.item_href = item.find('a')['href']
+                    break
+        else:
+            print(f'Внимание! Камера {self.k, article} не найдена на сайте')
             self.item_href = None
-            print(f'Внимание! Камера {self.k, article} не найдена на сайте:',
-                  ex)
 
     def get_img_url(self, article):
         self.get_item_href(article)
