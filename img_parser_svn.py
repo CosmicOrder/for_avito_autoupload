@@ -47,7 +47,7 @@ class ImgParserSVN:
     def save_img(self, article):
         response = requests.get(self.img_url, headers=headers)
         if response.status_code == 200:
-            disk_dir = r"C:\Users\Igor\Desktop\Photos_2"
+            disk_dir = r"C:\Users\Igor\Desktop\photos"
             with open(os.path.join(disk_dir, '{}. {}.png'.
                     format(self.k, article)), 'wb') as f:
                 f.write(response.content)

@@ -11,6 +11,9 @@ book = openpyxl.open(filename)
 sheet = book['SVN']
 
 article = []
+title = []
+category = ['Аудио и видео']
+goodstype = ['Видеокамеры']
 address = ['Россия, Калужская область, Калуга, Грабцевское шоссе, 33']
 description_1 = []
 description_2 = []
@@ -20,6 +23,7 @@ contact_method = ['По телефону и в сообщениях']
 manager_name = ['Святослав']
 contact_phone = ['+7 (910) 603-21-35']
 price = []
+condition = ['новое']
 images = []
 
 for row in range(2, sheet.max_row + 1):
@@ -27,6 +31,7 @@ for row in range(2, sheet.max_row + 1):
             'без лого' not in sheet[row][0].value and \
             sheet[row][9].value != 'нет':
         article.append(sheet[row][0].value)
+        title.append('Видеокамера ' + sheet[row][0].value)
         description_1.append(sheet[row][2].value)
         description_2.append(sheet[row][3].value)
         description_3.append(sheet[row][4].value)
@@ -40,10 +45,10 @@ for i in article:
     img_url = img_parser_svn.get_img_url(i)
     if img_url:
         images.append(make_valid_url(img_url))
-        img_parser_svn.save_img(i)
+        # img_parser_svn.save_img(i)
         bar.next()
     else:
-        images.append('...Картинка на сайте отсутствует...')
+        images.append('https://i.ibb.co/CWJqvx0/image.jpg')
         bar.next()
     bar.finish()
 
@@ -57,14 +62,19 @@ for i in range(len(description_1)):
     description.append(description_1[i] + description_2[i] +
                        description_3[i] + description_4[i])
 
+category = category * len(article)
+goodstype = goodstype * len(article)
 address = address * len(article)
 contact_method = contact_method * len(article)
 manager_name = manager_name * len(article)
 contact_phone = contact_phone * len(article)
+condition = condition * len(article)
 
-avito_table = {'Id': article, 'Description': description, 'Address': address,
-               'ContactMethod': contact_method, 'ManagerName': manager_name,
-               'ContactPhone': contact_phone, 'Price': price, 'Images': images}
+avito_table = {'Id': article, 'Title': title, 'Description': description,
+               'Category': category, 'GoodsType': goodstype,
+               'Address': address, 'ContactMethod': contact_method,
+               'ManagerName': manager_name, 'ContactPhone': contact_phone,
+               'Price': price, 'Condition': condition, 'Images': images}
 
 df = pd.DataFrame(avito_table)
 
