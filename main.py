@@ -42,15 +42,15 @@ img_parser_svn = ImgParserSVN()
 bar = IncrementalBar('Countdown', max=len(article))
 
 for i in article:
+    bar.next()
     img_url = img_parser_svn.get_img_url(i)
     if img_url:
         images.append(make_valid_url(img_url))
         # img_parser_svn.save_img(i)
-        bar.next()
     else:
         images.append('https://i.ibb.co/CWJqvx0/image.jpg')
-        bar.next()
-    bar.finish()
+
+bar.finish()
 
 description_1 = [str(i) if i is not None else '' for i in description_1]
 description_2 = [', ' + str(i) if i is not None else '' for i in description_2]

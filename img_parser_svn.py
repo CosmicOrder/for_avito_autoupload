@@ -30,7 +30,7 @@ class ImgParserSVN:
                     self.item_href = item.find('a')['href']
                     break
         else:
-            print(f'Внимание! Камера {self.k, article} не найдена на сайте')
+            print(f'\nВнимание! Камера {self.k, article} не найдена на сайте')
             self.item_href = None
 
     def get_img_url(self, article):
